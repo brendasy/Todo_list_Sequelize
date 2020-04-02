@@ -11,6 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //method-override
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
+
+//Todos and Users models
+const db = require('./models')
+const Todo = db.Todo
+const User = db.User
+
 //express-session
 const session = require('express-session')
 app.use(session(
@@ -72,8 +78,12 @@ app.get('/users/register', (req, res) => {
   res.render('register')
 })
 
-app.post('/users/regester', (req, res) => {
-
+app.post('/users/register', (req, res) => {
+  User.create({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  }).then(user => res.redirect('/'))
 })
 
 app.listen(3000, () => {
