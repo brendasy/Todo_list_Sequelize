@@ -26,10 +26,16 @@ app.use(session(
     saveUninitialized: true
   }
 ))
-//passport
+
+// 使用 Passport - 要在「使用路由器」前面
 const passport = require('passport')
 app.use(passport.initialize())
 app.use(passport.session())
+require('./config/passport')(passport)
+app.use((req, res, next) => {
+  res.locals.user = req.user
+  next()
+})
 
 //public
 app.use(express.static('public'))
