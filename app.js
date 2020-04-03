@@ -34,57 +34,10 @@ app.use(passport.session())
 //public
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-  res.render('index')
-})
+app.use('/todos', require('./routes/todo'))
+app.use('/users', require('./routes/user'))
+app.use('/', require('./routes/home'))
 
-app.get('/todos', (req, res) => {
-  res.render('index')
-})
-
-app.get('/todos/:id', (req, res) => {
-
-})
-
-app.get('/todos/new', (req, res) => {
-  res.render('new')
-})
-
-app.post('/todos', (req, res) => {
-  res.render('index')
-})
-
-app.get('/todos/:id/edit', (req, res) => {
-
-})
-
-app.put('/todos/:id', (req, res) => {
-
-})
-
-app.delete('/todos/:id', (req, res) => {
-  res.render('index')
-})
-
-app.get('/users/login', (req, res) => {
-  res.render('login')
-})
-
-app.post('/users/login', (req, res) => {
-
-})
-
-app.get('/users/register', (req, res) => {
-  res.render('register')
-})
-
-app.post('/users/register', (req, res) => {
-  User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  }).then(user => res.redirect('/'))
-})
 
 app.listen(3000, () => {
   console.log('express is running on port 3000')
