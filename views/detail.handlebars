@@ -1,0 +1,16 @@
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text">name</span>
+    <div class="input-group-text">
+      <input type="checkbox" name="done" {{#if todo.done}}checked{{/if}} disabled>
+    </div>
+  </div>
+
+  <span class="form-control">
+    {{todo.name}}
+  </span>
+  <div class="input-group-append">
+    <a class="btn btn-secondary" href="/todos/{{todo.id}}/edit">edit</a>
+  </div>
+</div>
+<a class="btn btn-success btn-sm float-right" href="/">back</a>

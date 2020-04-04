@@ -1,0 +1,23 @@
+<a class="btn btn-success mb-3" href="/todos/new">Create</a>
+
+{{#each todos}}
+  <div class="input-group mb-2">
+
+    <div class="input-group-prepend">
+      <span class="input-group-text">
+        <input type="checkbox" name="done" {{#if this.done}}checked{{/if}} disabled>
+      </span>
+    </div>
+
+    <a class="form-control" href="/todos/{{this.id}}">{{this.name}}</a>
+
+    <div class="input-group-append">
+      <a class="btn btn-outline-secondary" href="/todos/{{this.id}}">detail</a>
+      <a class="btn btn-outline-secondary" href="/todos/{{this.id}}/edit">edit</a>
+      <form action="/todos/{{this.id}}?_method=DELETE" method="POST">
+        <button class="btn btn-danger rounded-left-0 border-left-0">delete</button>
+      </form>
+    </div>
+
+  </div>
+{{/each}}
