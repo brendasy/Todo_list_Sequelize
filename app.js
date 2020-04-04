@@ -1,6 +1,10 @@
 //express
 const express = require('express')
 const app = express()
+// 判別開發環境
+if (process.env.NODE_ENV !== 'production') {      // 如果不是 production 模式
+  require('dotenv').config()                      // 使用 dotenv 讀取 .env 檔案
+}
 //express-handlebars
 const exphbs = require('express-handlebars')
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -11,7 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //method-override
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
-
+//flash
+const flash = require('connect-flash')
+app.use(flash())
 //Todos and Users models
 const db = require('./models')
 const Todo = db.Todo
@@ -36,6 +42,9 @@ require('./config/passport')(passport)
 
 app.use((req, res, next) => {
   res.locals.user = req.user
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 
@@ -45,8 +54,9 @@ app.use(express.static('public'))
 app.use('/todos', require('./routes/todo'))
 app.use('/users', require('./routes/user'))
 app.use('/', require('./routes/home'))
+app.use('/auth', require('./routes/auth'))
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('express is running on port 3000')
 })
